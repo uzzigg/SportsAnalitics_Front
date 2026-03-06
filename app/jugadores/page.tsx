@@ -26,6 +26,7 @@ function JugadoresContent() {
             updateFilter('search', urlSearch);
             updateFilter('page', 1);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams, updateFilter]);
 
     const { data, loading, error, refetch } = useFetch<PaginatedData<Player>>('/players', filters);
@@ -39,11 +40,6 @@ function JugadoresContent() {
         // Simple toggle logic treating it almost like a radio for the backend capability
         const currentPos = filters.position === pos ? '' : pos;
         updateFilter('position', currentPos);
-        updateFilter('page', 1);
-    };
-
-    const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        updateFilter('sort', e.target.value);
         updateFilter('page', 1);
     };
 

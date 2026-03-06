@@ -13,7 +13,7 @@ export default function PlayerDetail() {
     const id = params.id as string;
 
     const { data: player, loading: loadingPlayer, error: errorPlayer } = useFetch<Player>(`/players/${id}`);
-    const { data: statsData, loading: loadingStats, error: errorStats } = useFetch<PlayerStats>(`/players/${id}/stats`);
+    const { data: statsData } = useFetch<PlayerStats>(`/players/${id}/stats`);
 
     if (loadingPlayer) return <div className="flex justify-center flex-col items-center min-h-screen text-[#00d4ff]"><LoadingSpinner /></div>;
     if (errorPlayer) return <ErrorMessage message={errorPlayer} />;
