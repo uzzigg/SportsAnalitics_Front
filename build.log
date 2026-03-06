@@ -1,0 +1,12 @@
+app/detalle/[id]/page.tsx(13,88): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+app/detalle/[id]/page.tsx(104,109): error TS2552: Cannot find name 'Users'. Did you mean 'User'?
+app/jugadores/page.tsx(26,21): error TS2322: Type '(key: "search" | "position" | "sort" | "page", value: any) => void' is not assignable to type '(key: string, value: any) => void'.
+  Types of parameters 'key' and 'key' are incompatible.
+    Type 'string' is not assignable to type '"search" | "position" | "sort" | "page"'.
+app/page.tsx(8,47): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/base/ErrorMessage.tsx(2,29): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/base/LoadingSpinner.tsx(2,25): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/specific/FilterSidebar.tsx(2,32): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/specific/Footer.tsx(3,24): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/specific/Navbar.tsx(4,50): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.
+components/specific/PlayerCard.tsx(5,38): error TS2307: Cannot find module 'lucide-react' or its corresponding type declarations.

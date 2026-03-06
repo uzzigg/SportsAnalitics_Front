@@ -1,101 +1,93 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React from 'react';
+import Link from 'next/link';
+import { useFetch } from '../hooks/useFetch';
+import { Player, PaginatedData } from '../types';
+
+export default function Dashboard() {
+  const { data: playersData, loading: loadingPlayers } = useFetch<PaginatedData<Player>>('/players');
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="space-y-12 pb-12">
+      {/* Hero Section */}
+      <section className="relative h-[40vh] min-h-[400px] w-full flex flex-col justify-center px-6 lg:px-20 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuDW9-jy2bsLaxQ_pTljV8GEdPPeW72Fk1RGhcBicF33whQWn3HbFOd5w3cgPlvQvyUClCAQeVweUHe2z3nhoKxZnfbPylAhSmde-FPdnyI1pvAua18uJpxFlYWmhlwOnJW8uHQmMvT8Ey3ajPqoHvdcceeqFf6hN8BaZ93tNwVR8VtgrBmzH4e-QUlUNGZJ13FtBv8yRbjJCDRoP0geYoq8xIb97LBgEMJMFlP91S8bZi43T0D65h3uppT4LS2x-O6WrIEZ0dZxRch_')" }}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <div className="relative z-10 max-w-4xl space-y-6">
+          <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 px-4 py-1.5 rounded-full">
+            <span className="text-primary text-xs font-black uppercase tracking-widest leading-none">⚽ DESCUBRE EL FÚTBOL COMO NUNCA</span>
+          </div>
+          <div>
+            <h1 className="text-slate-100 text-5xl md:text-7xl font-black leading-tight tracking-tighter">
+              SPORTS <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-blue">ANALYTICS</span>
+            </h1>
+            <p className="text-slate-400 text-lg md:text-xl font-medium mt-4 max-w-xl">
+              Descubre a los mejores Jugadores de Fútbol con analítica de precisión en tiempo real.
+            </p>
+          </div>
+          <div className="pt-4">
+            <Link href="/jugadores">
+              <button className="bg-gradient-to-r from-primary to-accent-blue text-slate-900 px-8 py-4 rounded-lg font-black text-base uppercase tracking-widest transition-transform hover:scale-105">
+                EXPLORAR JUGADORES
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Main Content Area */}
+      <main className="w-full max-w-[1400px] mx-auto px-6 lg:px-20 py-8 space-y-16">
+
+        {/* Highlight Grid - Configured for Players only */}
+        <div className="max-w-5xl mx-auto">
+
+          {/* Top Jugadores */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between border-l-4 border-primary pl-4">
+              <h2 className="text-2xl font-black tracking-tight text-slate-100 uppercase italic">Jugadores Destacados</h2>
+              <Link href="/jugadores" className="text-primary text-xs font-bold hover:underline">VER TODOS</Link>
+            </div>
+            <div className="space-y-4">
+              {loadingPlayers ? (
+                <div className="space-y-4 animate-pulse">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <div key={i} className="h-24 bg-slate-800/50 rounded-xl" />
+                  ))}
+                </div>
+              ) : playersData?.players && playersData.players.length > 0 ? (
+                playersData.players.slice(0, 5).map(player => (
+                  <div key={player.id} className="group relative bg-slate-900/40 backdrop-blur-md border border-white/10 p-4 rounded-xl flex items-center gap-4 transition-all hover:border-primary/50">
+                    <div className="h-14 w-14 rounded-full bg-slate-800 overflow-hidden flex items-center justify-center">
+                      {player.team?.crest ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img alt={player.team.name} className="w-10 h-10 object-contain drop-shadow-md" src={player.team.crest} />
+                      ) : (
+                        <span className="material-symbols-outlined text-slate-500">person</span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-slate-100">{player.name}</h3>
+                      <div className="flex gap-4 mt-1">
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">Posición: <span className="text-slate-200">{player.position || 'N/A'}</span></span>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">País: <span className="text-slate-200">{player.nationality || 'N/A'}</span></span>
+                      </div>
+                    </div>
+                    <Link href={`/detalle/${player.id}`}>
+                      <button className="text-[10px] font-black text-primary border border-primary/40 px-3 py-1 rounded hover:bg-primary hover:text-background-dark transition-colors">VER DETALLE</button>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <div className="text-slate-400 text-sm italic">No hay jugadores disponibles.</div>
+              )}
+            </div>
+          </div>
+
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
